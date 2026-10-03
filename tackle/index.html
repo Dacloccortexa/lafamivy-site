@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TACKLE — le quiz foot entre potes</title>
+<meta name="description" content="TACKLE, le quiz foot à jouer en équipe sur un seul téléphone. Bientôt sur l'App Store ; jouable dès maintenant dans le navigateur.">
+<meta property="og:title" content="TACKLE — le quiz foot entre potes">
+<meta property="og:description" content="De 1 à 4 équipes, un seul téléphone, cinq défis et le Tackle pour voler la réponse.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Figtree:wght@400;600;700&display=swap">
+<style>
+  /* Une page, une colonne : le jeu, puis comment l'avoir. Même univers que l'appli (nuit de stade, or). */
+  :root { --bg: #071f19; --panel: #0d2b22; --line: #24493d; --ink: #f8f6ed; --muted: #c4d6cc; --gold: #f2bf54; --gold-deep: #c98e2a;
+    --font-display: "Oswald", "Arial Narrow", Impact, sans-serif; --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg) radial-gradient(120% 60% at 50% 0%, #16402f 0%, var(--bg) 70%) no-repeat; color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6; }
+  main { max-width: 620px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 40px; display: grid; gap: 28px; text-align: center; }
+  h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 16vw, 96px); letter-spacing: .02em; line-height: .95; color: var(--gold); }
+  .tag { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 20px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  p { margin: 0; }
+  .lede { color: var(--muted); max-width: 46ch; margin-inline: auto; }
+  .facts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .facts li { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); font-weight: 600; font-size: 15px; }
+  .cta { display: grid; gap: 12px; }
+  .btn { display: block; padding: 16px 20px; border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; }
+  .btn.primary { background: linear-gradient(180deg, #ffe08e, var(--gold) 45%, var(--gold-deep)); color: #231603; }
+  .btn.ghost { border: 1.5px solid var(--gold); color: var(--ink); }
+  .soon { font-size: 14px; color: var(--muted); }
+  .how { display: grid; gap: 10px; text-align: left; padding: 20px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
+  .how h2 { margin: 0; font-family: var(--font-display); font-size: 20px; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+  .how p { color: var(--muted); }
+  .how b { color: var(--ink); }
+  footer { font-size: 14px; color: var(--muted); }
+  footer a { color: var(--muted); }
+  a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main>
+  <div style="display:grid;gap:10px">
+    <h1><img src="https://dacloccortexa.github.io/game-project/assets/ui/web/tackle-logo-brush.webp" alt="TACKLE" width="320" height="160" style="width:min(320px,80vw);height:auto;display:block;margin:0 auto"></h1>
+    <p class="tag">Le quiz foot entre potes</p>
+  </div>
+  <p class="lede">De 1 à 4 équipes sur un seul téléphone. Retrouve le joueur, le match, le vrai du faux… et quand l'adversaire sèche, crie « Tackle ! » pour lui voler la réponse.</p>
+  <ul class="facts"><li>1 à 4 équipes</li><li>5 défis</li><li>5 à 20 manches</li><li>Un seul téléphone</li></ul>
+  <div class="cta">
+    <a class="btn primary" href="https://dacloccortexa.github.io/game-project/">Jouer maintenant</a>
+    <p class="soon">Dans le navigateur de ton téléphone, gratuitement. L'appli iPhone arrive bientôt sur l'App Store.</p>
+  </div>
+  <section class="how">
+    <h2>Comment on joue</h2>
+    <p>À chaque manche, un défi est tiré au sort : <b>Transfert</b>, <b>Qui suis-je ?</b>, <b>Le Match</b>, <b>Plus ou Moins</b> ou <b>Vrai ou Faux</b>. Plus tu trouves tôt, plus tu marques.</p>
+    <p>L'équipe qui a la main a 30 secondes. Au coup de sifflet, la première équipe qui crie <b>« Tackle ! »</b> peut répondre à sa place.</p>
+  </section>
+  <footer>Un jeu de <a href="https://lafamivy.com">La Famivy</a> · contact@lafamivy.com</footer>
+</main>
+</body>
+</html>
