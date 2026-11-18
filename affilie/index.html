@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Affiliate earnings — TACKLE</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23e8a21c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bg: #f5f7f4; --surface: #ffffff; --ink: #13231f; --muted: #4f625c; --line: #d7e0dc;
+    --lagoon: #0b7a73; --lagoon-soft: #dcefec; --sun: #e8a21c;
+    --font-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+    --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1715; --surface: #15221f; --ink: #e9f1ee; --muted: #9db3ac; --line: #26382f;
+      --lagoon: #3cc2b8; --lagoon-soft: #173430; --sun: #f0b53f; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1715; --surface: #15221f; --ink: #e9f1ee; --muted: #9db3ac; --line: #26382f;
+    --lagoon: #3cc2b8; --lagoon-soft: #173430; --sun: #f0b53f; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+  main { max-width: 720px; margin: 0 auto; padding: 40px 16px 56px; display: grid; gap: 20px; }
+  .brand { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--ink); text-decoration: none; }
+  h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 6.5vw, 36px); line-height: 1.1; margin: 0 0 4px; }
+  p { margin: 0; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; gap: 2px; }
+  .kpi.hero { background: var(--lagoon-soft); border-color: transparent; }
+  .kpi .label { font-size: 14px; color: var(--muted); }
+  .kpi .value { font-family: var(--font-display); font-weight: 700; font-size: 28px; font-variant-numeric: tabular-nums; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 10px 6px; border-bottom: 1px solid var(--line); }
+  th:first-child, td:first-child { text-align: left; }
+  th { font-size: 13px; font-weight: 600; color: var(--muted); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.comm { font-weight: 700; color: var(--lagoon); }
+  .state { padding: 28px 20px; text-align: center; display: grid; gap: 6px; }
+  footer { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <a class="brand" href="/">La Famivy</a>
+  <header>
+    <h1 id="title">Affiliate earnings</h1>
+    <p class="muted" id="sub"></p>
+  </header>
+
+  <div id="loading" class="card state"><p id="t-loading">Loading…</p></div>
+  <div id="error" class="card state" hidden><p><strong id="t-err-title"></strong></p><p class="muted" id="t-err-text"></p></div>
+
+  <div id="content" hidden>
+    <div class="kpis">
+      <div class="kpi hero"><span class="label" id="l-comm"></span><span class="value" id="v-comm"></span></div>
+      <div class="kpi"><span class="label" id="l-proceeds"></span><span class="value" id="v-proceeds"></span></div>
+      <div class="kpi"><span class="label" id="l-rate"></span><span class="value" id="v-rate"></span></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <table>
+        <thead><tr><th id="h-month"></th><th id="h-proceeds"></th><th id="h-comm"></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p class="muted" id="t-empty" hidden style="padding-top:12px"></p>
+    </div>
+    <footer style="margin-top:12px">
+      <p id="t-note"></p>
+      <p id="t-updated"></p>
+    </footer>
+  </div>
+</main>
+<script>
+// Adresse du script Cloudflare qui lit RevenueCat (à renseigner après son déploiement).
+var API = "https://affilies.lafamivy.com/";
+
+var I18N = {
+  en: { title:"Affiliate earnings", sub:function(n,c){return "Hi "+n+" — your share of TACKLE sales in "+c;}, loading:"Loading…",
+    errT:"We couldn't open this page", errU:"This link is not valid. Please check it or contact David.", errS:"The figures are temporarily unavailable. Please try again in a few minutes.",
+    comm:"Your commission", proceeds:"Net revenue", rate:"Your rate", month:"Month", empty:"No sales yet — your figures will appear here as soon as the first purchase comes in.",
+    note:"Net revenue is what TACKLE actually receives after the App Store / Google Play commission and taxes, for purchases made in your country. Your commission is your rate applied to that amount.",
+    upd:function(d){return "Last updated: "+d+". Figures refresh automatically and may lag by a day.";} },
+  pt: { title:"Os teus ganhos de afiliado", sub:function(n,c){return "Olá "+n+" — a tua parte das vendas do TACKLE em "+c;}, loading:"A carregar…",
+    errT:"Não foi possível abrir esta página", errU:"Esta ligação não é válida. Verifica-a ou fala com o David.", errS:"Os valores estão temporariamente indisponíveis. Tenta novamente dentro de alguns minutos.",
+    comm:"A tua comissão", proceeds:"Receita líquida", rate:"A tua taxa", month:"Mês", empty:"Ainda sem vendas — os teus valores vão aparecer aqui assim que houver a primeira compra.",
+    note:"A receita líquida é o que o TACKLE recebe realmente depois da comissão da App Store / Google Play e dos impostos, nas compras feitas no teu país. A tua comissão é a tua taxa aplicada a esse valor.",
+    upd:function(d){return "Última atualização: "+d+". Os valores atualizam-se automaticamente e podem ter um dia de atraso.";} }
+};
+var COUNTRIES = { PT:{en:"Portugal",pt:"Portugal"}, AU:{en:"Australia",pt:"Austrália"} };
+
+function $(id){ return document.getElementById(id); }
+function show(id){ ["loading","error","content"].forEach(function(x){ $(x).hidden = x !== id; }); }
+function fail(L, key){ $("t-err-title").textContent = L.errT; $("t-err-text").textContent = L[key]; show("error"); }
+
+(function(){
+  var lang = /^pt/i.test(navigator.language || "") ? "pt" : "en";
+  var L = I18N[lang];
+  document.documentElement.lang = lang; $("title").textContent = L.title; $("t-loading").textContent = L.loading;
+  var token = new URLSearchParams(location.search).get("t");
+  if (!token) return fail(L, "errU");
+  fetch(API + "?t=" + encodeURIComponent(token)).then(function(r){
+    if (r.status === 404) throw "errU"; if (!r.ok) throw "errS"; return r.json();
+  }).then(function(d){
+    lang = I18N[d.lang] ? d.lang : lang; L = I18N[lang]; document.documentElement.lang = lang;
+    var cur = d.currency || "EUR";
+    var money = new Intl.NumberFormat(lang === "pt" ? "pt-PT" : "en-AU", { style:"currency", currency:cur });
+    var month = new Intl.DateTimeFormat(lang === "pt" ? "pt-PT" : "en-AU", { month:"long", year:"numeric", timeZone:"UTC" });
+    var cn = (COUNTRIES[d.country] || {})[lang] || d.country;
+    document.title = L.title + " — TACKLE";
+    $("title").textContent = L.title; $("sub").textContent = L.sub(d.name, cn);
+    $("l-comm").textContent = L.comm; $("v-comm").textContent = money.format(d.total.commission);
+    $("l-proceeds").textContent = L.proceeds; $("v-proceeds").textContent = money.format(d.total.proceeds);
+    $("l-rate").textContent = L.rate; $("v-rate").textContent = Math.round(d.rate * 1000) / 10 + " %";
+    $("h-month").textContent = L.month; $("h-proceeds").textContent = L.proceeds; $("h-comm").textContent = L.comm;
+    var body = $("rows"); body.textContent = "";
+    d.months.slice().reverse().forEach(function(m){
+      var tr = document.createElement("tr"), a = document.createElement("td"), b = document.createElement("td"), c = document.createElement("td");
+      a.textContent = month.format(new Date(m.month + "-01T00:00:00Z")); b.textContent = money.format(m.proceeds);
+      c.textContent = money.format(m.commission); c.className = "comm"; tr.append(a, b, c); body.appendChild(tr);
+    });
+    $("t-empty").textContent = L.empty; $("t-empty").hidden = d.months.length > 0;
+    $("t-note").textContent = L.note;
+    $("t-updated").textContent = L.upd(new Intl.DateTimeFormat(lang === "pt" ? "pt-PT" : "en-AU", { dateStyle:"medium", timeStyle:"short" }).format(new Date(d.updated)));
+    show("content");
+  }).catch(function(e){ fail(L, typeof e === "string" ? e : "errS"); });
+})();
+</script>
+</body>
+</html>
