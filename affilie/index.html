@@ -115,9 +115,9 @@ function fail(L, key){ $("t-err-title").textContent = L.errT; $("t-err-text").te
   }).then(function(d){
     lang = I18N[d.lang] ? d.lang : lang; L = I18N[lang]; document.documentElement.lang = lang;
     var cur = d.currency || "EUR";
-    var money = new Intl.NumberFormat(lang === "pt" ? "pt-PT" : "en-AU", { style:"currency", currency:cur });
+    var money = new Intl.NumberFormat(lang === "pt" ? "pt-PT" : "en-IE", { style:"currency", currency:cur });
     var month = new Intl.DateTimeFormat(lang === "pt" ? "pt-PT" : "en-AU", { month:"long", year:"numeric", timeZone:"UTC" });
-    var cn = (COUNTRIES[d.country] || {})[lang] || d.country;
+    var cn = d.country; try { cn = new Intl.DisplayNames([lang === "pt" ? "pt-PT" : "en"], { type:"region" }).of(d.country) || d.country; } catch (e) {}
     document.title = L.title + " — TACKLE";
     $("title").textContent = L.title; $("sub").textContent = L.sub(d.name, cn);
     $("l-comm").textContent = L.comm; $("v-comm").textContent = money.format(d.total.commission);
